@@ -14,7 +14,7 @@ public class AuthenticationService {
 
 
         boolean isValidUserName = userName.equalsIgnoreCase("in28minutes");
-        boolean isValidPassword = password.equalsIgnoreCase("Easy2guess!");
+        boolean isValidPassword = password.equalsIgnoreCase("dummy");
 
         logger.debug("Username: {}", userName);
         logger.debug("Password: {}", password);
