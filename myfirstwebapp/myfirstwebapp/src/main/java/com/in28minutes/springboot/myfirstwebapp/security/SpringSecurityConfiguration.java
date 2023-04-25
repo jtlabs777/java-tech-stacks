@@ -23,14 +23,20 @@ public class SpringSecurityConfiguration {
         //userDetail builder
         final Function<String, String> passwordEncoder = input -> passwordEncoder().encode(input); //utilize our function and then encode
 
-          UserDetails userDetails = User.builder()
+        UserDetails userDetails1 = createNewUser(passwordEncoder, "jtlabs", "dummy");
+        UserDetails userDetails2 = createNewUser(passwordEncoder, "Jay", "dummydummy");
+
+        return new InMemoryUserDetailsManager(userDetails1, userDetails2);
+    }
+
+    private static UserDetails createNewUser(Function<String, String> passwordEncoder, String username, String password) {
+        UserDetails userDetails = User.builder()
                 .passwordEncoder(passwordEncoder) //use our custom encoder via a lambda expression
-                .username("jtlabs")
-                .password("dummy")
+                .username(username)
+                .password(password)
                 .roles("USER", "ADMIN")
                 .build();
-
-        return new InMemoryUserDetailsManager(userDetails);
+        return userDetails;
     }
 
     @Bean
