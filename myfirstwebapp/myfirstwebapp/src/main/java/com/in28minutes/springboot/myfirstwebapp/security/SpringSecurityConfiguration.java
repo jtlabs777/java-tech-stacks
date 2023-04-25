@@ -43,4 +43,12 @@ public class SpringSecurityConfiguration {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
+    //All URLS are protected
+    //A login form is shown for unauthorized request
+    //CSRF (Cross-site Request Forgery) needs to be disabled for h2-console to work
+    //Frames are used by h2, spring security does not allow frames
+
+
 }
