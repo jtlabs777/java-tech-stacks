@@ -1,6 +1,6 @@
 package com.in28minutes.springboot.myfirstwebapp.login;
 
-import org.slf4j.Logger;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @SessionAttributes("name")
 public class WelcomeController {
 
-    private Logger logger;
+
 
 
 
