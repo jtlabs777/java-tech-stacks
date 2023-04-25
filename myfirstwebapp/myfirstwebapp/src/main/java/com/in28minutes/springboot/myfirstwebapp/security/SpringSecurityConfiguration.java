@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import java.util.function.Function;
+
 @Configuration  //declare class as a bean to be used of Spring Security Context for configuraiton
 public class SpringSecurityConfiguration {
     //LDAP or Database to store user names or passwords
@@ -19,7 +21,10 @@ public class SpringSecurityConfiguration {
     @Bean
     public InMemoryUserDetailsManager createUserDetailsManager() {
         //userDetail builder
-        UserDetails userDetails = User.withDefaultPasswordEncoder()   //deprecated, ideally all passwords should be encoded
+        final Function<String, String> passwordEncoder = input -> passwordEncoder().encode(input); //utilize our function and then encode
+
+          UserDetails userDetails = User.builder()
+                .passwordEncoder(passwordEncoder) //use our custom encoder via a lambda expression
                 .username("jtlabs")
                 .password("dummy")
                 .roles("USER", "ADMIN")
@@ -28,10 +33,7 @@ public class SpringSecurityConfiguration {
         return new InMemoryUserDetailsManager(userDetails);
     }
 
-    @Bean   //as it is right now, this will not let you login using deprecated feature
-    // because it is encrypting data user enters before the hash is checked
-    //the deprecated withDefaultPasswordEncoder feature in the createUserDetailsManager bean needs to be replaced
-    //with this encoder.
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
