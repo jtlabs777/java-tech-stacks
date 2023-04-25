@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @SessionAttributes("name")
 public class TodoControllerJpa {
 
-    private TodoService todoService;
+
 
     private TodoRepository todoRepository;
 
     public TodoControllerJpa(TodoService todoService, TodoRepository todoRepository) {
-        this.todoService = todoService;
         this.todoRepository = todoRepository;
     }
 
@@ -61,8 +61,9 @@ public class TodoControllerJpa {
             return "todo";
         }
         String username = getLoggedInUsername(model);
-
-        todoService.addTodo(username, todo.getDescription(), LocalDate.now().plusYears(1), false );
+        todo.setUsername(username);
+        todoRepository.save((todo));
+//        todoService.addTodo(username, todo.getDescription(), todo.getTargetDate(), todo.isDone() );
         return "redirect:list-todos";
     }
 
@@ -70,8 +71,7 @@ public class TodoControllerJpa {
     @RequestMapping(value="delete-todo", method = RequestMethod.GET)
     public String deleteTodo(@RequestParam int id)
     {
-
-        todoService.deleteById(id);
+        todoRepository.deleteById(id);
         return "redirect:list-todos";
     }
 
@@ -79,7 +79,8 @@ public class TodoControllerJpa {
     public String showUpdateTodoPage(@RequestParam int id, ModelMap model)
     {
 
-        Todo todo = todoService.findById(id);
+        Todo todo = todoRepository.findById(id).get();
+
         model.put("todo", todo);
 
         return "todo";
@@ -94,7 +95,9 @@ public class TodoControllerJpa {
         }
 
         String username = getLoggedInUsername(model);
-        todoService.updateTodo(id, todo.getDescription(), todo.getTargetDate());
+        todo.setUsername(username);
+        todoRepository.save(todo);
+        //todoService.updateTodo(id, todo.getDescription(), todo.getTargetDate());
         return "redirect:list-todos";
     }
 }
