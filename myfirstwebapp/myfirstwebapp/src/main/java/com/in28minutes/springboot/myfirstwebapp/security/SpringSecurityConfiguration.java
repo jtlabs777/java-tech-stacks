@@ -27,8 +27,8 @@ public class SpringSecurityConfiguration {
         //userDetail builder
         final Function<String, String> passwordEncoder = input -> passwordEncoder().encode(input); //utilize our function and then encode
 
-        UserDetails userDetails1 = createNewUser(passwordEncoder, "jtlabs", "dummy");
-        UserDetails userDetails2 = createNewUser(passwordEncoder, "Jay", "dummydummy");
+        UserDetails userDetails1 = createNewUser(passwordEncoder, "guest", "dummy");
+        UserDetails userDetails2 = createNewUser(passwordEncoder, "guest2", "dummydummy");
 
         return new InMemoryUserDetailsManager(userDetails1, userDetails2);
     }
