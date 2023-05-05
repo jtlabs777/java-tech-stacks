@@ -39,3 +39,7 @@ docker run --detach --env MYSQL_ROOT_PASSWORD=dummypassword --env MYSQL_USER=tod
 
 * user: `guest`, password: `dummy`
 * user: `guest2`, password: `dummydummy`
+
+6. Click manage your todos
+
+7. Click Add-todo, the date is formatted yyy-mm-dd
